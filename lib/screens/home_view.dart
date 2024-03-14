@@ -7,20 +7,14 @@ import 'package:weatherapp/widgets/Weather_info.dart';
 import 'package:weatherapp/widgets/noweatherBody.dart';
 import 'package:weatherapp/widgets/text.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-    //  backgroundColor: Colors.transparent,
+      //  backgroundColor: Colors.transparent,
       appBar: AppBar(
-
         title: const Text("Weather App"),
         actions: [
           IconButton(
@@ -39,21 +33,31 @@ class _HomeViewState extends State<HomeView> {
       body: BlocBuilder<GetWeatherCubit, WeatherState>(
         builder: (context, state) {
           if (state is NoWeatherState) {
-            return const  NoWeatherBody();
+            return const NoWeatherBody();
           } else if (state is WeatherLoadedState) {
-            return const  WeatherInfo();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is WeatherSuccessState) {
+            return const WeatherInfo();
           } else {
-            return  SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              
-              child: Center(child: Image.asset('assets/image/er2.jpg',fit: BoxFit.fill,height: double.infinity,width: double.infinity,)));
+            return SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: Center(
+                    child: Image.asset(
+                  'assets/image/er2.jpg',
+                  fit: BoxFit.fill,
+                  height: double.infinity,
+                  width: double.infinity,
+                )));
           }
         },
       ),
     );
   }
 }
+
 // state >= الاوضاع اللي بياخدها ال يو اي بتاعنا
 // the name of cubit come from logic that change the state which manage it 
 // cubit is simple way from bloc state 
